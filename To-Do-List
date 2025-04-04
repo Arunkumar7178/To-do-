@@ -1,0 +1,46 @@
+import { useState } from "react";
+
+function Todo() {
+  const [list, setList] = useState([
+    { id: 1, activity: "apple" },
+    { id: 2, activity: "orange" },
+  ]);
+
+  const [newItem, setNewItem] = useState("");
+
+  function handleDelete(removeId) {
+    const tempArr = list.filter(function (item) {
+      return item.id !== removeId;
+    });
+    setList(tempArr);
+  }
+
+  function handleChange(evt) {
+    setNewItem(evt.target.value);
+  }
+
+  function addElement() {
+    setList([...list, { id: list.length + 1, activity: newItem }]);
+    setNewItem(""); // clear input after adding
+  }
+
+  return (
+    <>
+      <h1>Todo List</h1>
+      <input value={newItem} onChange={handleChange} />
+      <button onClick={addElement}>Add</button>
+      <ul>
+        {list.map(function (item) {
+          return (
+            <li key={item.id}>
+              {item.activity}{" "}
+              <button onClick={() => handleDelete(item.id)}>Delete</button>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+}
+
+export default Todo;
